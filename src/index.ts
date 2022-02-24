@@ -1,5 +1,5 @@
 export default {
-  // TODO: доделать
+  // TODO: getFile
   getFile(fileKey: string, token: string): object {
     return {};
   },
@@ -15,16 +15,19 @@ export default {
     return `rgba(${(r * 255).toFixed(2)}, ${(g * 255).toFixed(2)}, ${(
       b * 255
     ).toFixed(2)}, ${a.toFixed(2)})`;
-  },
-  // TODO: доделать
+  }, // COMPLETE: rgba
+
+  // TODO: linearGradient
   linearGradient(gradient: object): string {
     return "";
   },
-  // TODO: доделать
+
+  // TODO: radialGradient
   radialGradient(gradient: object): string {
     return "";
   },
-  // TODO: доделать
+
+  // TODO: background
   background(fills: object[]): string {
     return "";
   },
@@ -46,12 +49,12 @@ export default {
       return `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`;
     }
     return "none";
-  },
+  }, // COMPLETE: padding
 
   /**
    * Возвращает CSS padding
    */
-  // TODO: доделать
+  // TODO: border
   border({}): string {
     return "";
   },
@@ -59,7 +62,7 @@ export default {
   /**
    * Парсинг объекта figma
    */
-  // TODO: доделать
+  // TODO: PARSE
   PARSE(obj: { name: string; childrens: object[] }): object {
     const result = {
       tag: "",
