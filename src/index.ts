@@ -1,3 +1,39 @@
+// TODO: дописать типы
+interface IColor {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+interface ISolidFill {
+  type: string;
+  color: IColor;
+}
+interface IGradientFill {
+  type: string;
+  color: IColor;
+}
+
+interface IFigma {
+  id: string;
+  name: string;
+  type: string;
+  children: IFigma[];
+}
+
+interface IFigmaText extends IFigma {
+  fills: ISolidFill[] | IGradientFill[];
+}
+interface IFigmaFrame extends IFigma {
+  fills: ISolidFill[] | IGradientFill[];
+  strokes?: ISolidFill[];
+  strokeWeight?: number;
+  paddingTop?: number;
+  paddingRight?: number;
+  paddingBottom?: number;
+  paddingLeft?: number;
+}
+
 export default {
   // TODO: getFile
   getFile(fileKey: string, token: string): object {
@@ -11,7 +47,7 @@ export default {
    * ```
    * *Принемает значения от 0 до 1*
    */
-  rgba({ r = 1, g = 1, b = 1, a = 1 }): string {
+  rgba({ r = 1, g = 1, b = 1, a = 1 }: IColor): string {
     return `rgba(${(r * 255).toFixed(2)}, ${(g * 255).toFixed(2)}, ${(
       b * 255
     ).toFixed(2)}, ${a.toFixed(2)})`;
@@ -28,7 +64,7 @@ export default {
   },
 
   // TODO: background
-  background(fills: object[]): string {
+  background({ fills = [] }: IFigma): string {
     return "";
   },
 
@@ -40,7 +76,7 @@ export default {
     paddingRight = 0,
     paddingBottom = 0,
     paddingLeft = 0,
-  }): string {
+  }: IFigmaFrame): string {
     const sum = paddingTop + paddingRight + paddingBottom + paddingLeft;
     if (sum > 0) {
       if (paddingBottom === paddingTop && paddingLeft === paddingRight) {
@@ -55,15 +91,21 @@ export default {
    * Возвращает CSS padding
    */
   // TODO: border
-  border({}): string {
-    return "";
+  border({ strokeWeight = 0, strokes = [] }: IFigmaFrame): string {
+    if (strokeWeight > 0 && strokes[0]) {
+      const map = ["SOLID", "DASHED"];
+      return map.includes(strokes[0].type)
+        ? `${strokeWeight}px ${strokes[0].type.toLowerCase()}`
+        : "none";
+    }
+    return "none";
   },
 
   /**
    * Парсинг объекта figma
    */
   // TODO: PARSE
-  PARSE(obj: { name: string; childrens: object[] }): object {
+  PARSE(obj: IFigma): object {
     const result = {
       tag: "",
     };
