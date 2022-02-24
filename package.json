@@ -1,0 +1,26 @@
+{
+  "name": "@sashachepuha/figma",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node ./lib/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sashachepuha/figma.git"
+  },
+  "keywords": [
+    "figma"
+  ],
+  "author": "Sergey Batukov <sashachepuha@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sashachepuha/figma/issues"
+  },
+  "homepage": "https://github.com/sashachepuha/figma#readme",
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}
