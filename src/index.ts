@@ -1,43 +1,27 @@
-// TODO: дописать типы
-interface IColor {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-}
-interface ISolidFill {
-  type: string;
-  color: IColor;
-}
-interface IGradientFill {
-  type: string;
-  color: IColor;
-}
-
-interface IFigma {
-  id: string;
-  name: string;
-  type: string;
-  children: IFigma[];
-}
-
-interface IFigmaText extends IFigma {
-  fills: ISolidFill[] | IGradientFill[];
-}
-interface IFigmaFrame extends IFigma {
-  fills: ISolidFill[] | IGradientFill[];
-  strokes?: ISolidFill[];
-  strokeWeight?: number;
-  paddingTop?: number;
-  paddingRight?: number;
-  paddingBottom?: number;
-  paddingLeft?: number;
-}
+import {
+  IColor,
+  IFigma,
+  IFigmaFrame,
+  IFigmaText,
+  IGradientFill,
+  IOutputObject,
+} from "./interfaces";
+import axios from "axios";
 
 export default {
   // TODO: getFile
-  getFile(fileKey: string, token: string): object {
-    return {};
+  getFile(fileKey: string, token: string): void {
+    axios
+      .get(`https://api.figma.com/v1/files/${fileKey}`, {
+        headers: {
+          "X-FIGMA-TOKEN": token,
+        },
+      })
+      .then((res) => {
+        console.log(JSON.stringify(res.data, null, 2));
+        return res.data;
+      })
+      .catch((err) => console.log(err));
   },
 
   /**
@@ -54,17 +38,17 @@ export default {
   }, // COMPLETE: rgba
 
   // TODO: linearGradient
-  linearGradient(gradient: object): string {
+  linearGradient(gradient: IGradientFill): string {
     return "";
   },
 
   // TODO: radialGradient
-  radialGradient(gradient: object): string {
+  radialGradient(gradient: IGradientFill): string {
     return "";
   },
 
   // TODO: background
-  background({ fills = [] }: IFigma): string {
+  background({ fills = [] }: IFigmaFrame | IFigmaText): string {
     return "";
   },
 
@@ -95,10 +79,35 @@ export default {
     if (strokeWeight > 0 && strokes[0]) {
       const map = ["SOLID", "DASHED"];
       return map.includes(strokes[0].type)
-        ? `${strokeWeight}px ${strokes[0].type.toLowerCase()}`
+        ? `${strokeWeight}px ${strokes[0].type.toLowerCase()} ${this.rgba(
+            strokes[0].color
+          )}`
         : "none";
     }
     return "none";
+  },
+
+  text(obj: IFigmaText): IOutputObject {
+    const result = {
+      tag: "div",
+      style: {},
+      childs: [],
+    };
+    return result;
+  },
+
+  frame(obj: IFigmaFrame): IOutputObject {
+    const map = ["div"];
+    const result = {
+      tag: map.includes(obj.name) ? obj.name : "div",
+      style: {
+        background: this.background(obj),
+        border: this.border(obj),
+        padding: this.padding(obj),
+      },
+      childs: [],
+    };
+    return result;
   },
 
   /**

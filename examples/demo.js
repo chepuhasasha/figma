@@ -1,5 +1,5 @@
 import figma from "../lib/index.js";
 
-const color = figma.rgba({ r: 0.2, g: 0.7, b: 0.6, a: 1 });
-const color = figma.PARSE();
-console.log(color);
+const token = "330102-1bc50223-85ca-498b-b559-46590ae81dca";
+const fileID = "NpCIlqHAUxB5bBzAS7RObK";
+const color = figma.getFile(fileID, token);
