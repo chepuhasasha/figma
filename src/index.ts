@@ -4,4 +4,9 @@ export default {
       b * 255
     ).toFixed(2)}, ${a.toFixed(2)})`;
   },
+
+  PARSE(obj: object): object {
+    const result = {};
+    return result;
+  },
 };
