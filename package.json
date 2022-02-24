@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "",
   "main": "./lib/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node ./lib/index.js",
+    "demo": "tsc && node ./examples/demo.js",
     "docs": "typedoc"
   },
   "repository": {
